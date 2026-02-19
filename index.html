@@ -8,6 +8,7 @@
       --main-color: #f3a6b3;
       --bg-color: #fff5f7;
       --text-color: #8b3a4a;
+      --paper-color: #fff3dc;
     }
 
     * {
@@ -27,12 +28,16 @@
 
     .container {
       text-align: center;
+      position: relative;
     }
 
     .flower {
       width: 220px;
       margin: auto;
       animation: float 4s ease-in-out infinite;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
     }
 
     .meaning {
@@ -48,6 +53,47 @@
       opacity: 0.7;
     }
 
+    /* กระดาษ */
+    .paper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      padding: 24px;
+      background: var(--paper-color);
+      border-radius: 12px;
+      box-shadow: 0 25px 40px rgba(0,0,0,0.2);
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.4s ease;
+      z-index: 5;
+    }
+
+    .paper.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      pointer-events: auto;
+    }
+
+    .paper h2 {
+      color: var(--text-color);
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+
+    .paper p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .close {
+      margin-top: 14px;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
     @keyframes float {
       0% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
@@ -59,28 +105,49 @@
 
   <div class="container">
 
-    <!-- ดอกไม้ -->
-    <svg class="flower" viewBox="0 0 200 300">
-      <!-- ก้าน -->
+    <!-- ดอกไม้ (คลิกได้) -->
+    <svg class="flower" id="flower" viewBox="0 0 200 300">
       <rect x="96" y="110" width="8" height="150" fill="#6fa87a"/>
-
-      <!-- ใบ -->
       <path d="M100 160 C40 180, 40 230, 100 210" fill="#7fbf90"/>
       <path d="M100 160 C160 180, 160 230, 100 210" fill="#7fbf90"/>
-
-      <!-- กลีบดอก -->
       <ellipse cx="100" cy="90" rx="45" ry="55" fill="#f3a6b3"/>
       <ellipse cx="75" cy="90" rx="35" ry="45" fill="#f7b7c3"/>
       <ellipse cx="125" cy="90" rx="35" ry="45" fill="#f7b7c3"/>
     </svg>
 
-    <!-- ข้อความ -->
+    <!-- ข้อความเดิม (ไม่แตะ) -->
     <div class="meaning">
       Flower Tulip
       <div class="sub">“Wishing you endless happiness.”</div>
     </div>
 
+    <!-- กระดาษครีม -->
+    <div class="paper" id="paper">
+      <h2>กาตัง</h2>
+      <p>
+        ยินดีด้วยกับเป้าหมายแรกของหนู.🩵🤍<br>
+        ขอให้หนูความสุขมากๆ นะ <br>
+        ต่อไปมันจะยากขึ้นอาจจะเหนื่อยหรือท้อบ้าง… พี่ก็เชื่อว่าหนูจะผ่านมันไปได้<br>
+
+      พี่รู้ว่า... “หนูเก่งที่สุดในโลกเลย”
+      </p>
+      <div class="close">(click to close)</div>
+    </div>
+
   </div>
+
+<script>
+  const flower = document.getElementById('flower');
+  const paper = document.getElementById('paper');
+
+  flower.addEventListener('click', () => {
+    paper.classList.add('show');
+  });
+
+  paper.addEventListener('click', () => {
+    paper.classList.remove('show');
+  });
+</script>
 
 </body>
 </html>
